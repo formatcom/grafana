@@ -4,7 +4,8 @@ MAINTAINER Vinicio Valbuena <vinicio.valbuena@hoplasoftware.com>
 ARG GF_UID=472
 ARG GF_GID=472
 
-ENV PATH=/grafana/bin:$PATH \
+ENV PATH=/usr/local/bin:/grafana/bin:$PATH \
+    LD_LIBRARY_PATH=/usr/local/lib64:$LD_LIBRARY_PATH \
     GF_PATHS_HOME="/grafana" \
     GF_PATHS_CONFIG="/grafana/conf/defaults.ini" \
     GF_PATHS_DATA="/grafana/data" \

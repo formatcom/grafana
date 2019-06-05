@@ -56,9 +56,6 @@ install_gcc()
 	fi
 	cd ..
 	rm -rf $dir
-
-	PATH=/usr/local/bin:$PATH
-	LD_LIBRARY_PATH=/usr/local/lib64:$LD_LIBRARY_PATH
 }
 
 install_go()
