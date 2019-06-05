@@ -16,13 +16,16 @@ ENV PATH=/usr/local/bin:/grafana/bin:$PATH \
 ARG GCC_VERSION=9.1.0
 ARG GO_VERSION=1.12.5
 ARG NODEJS_VERSION=10.16.0
+ARG PHANTOMJS_VERSION=2.1.1
 
 ADD build.sh /bin/build.sh
 ADD entrypoint.sh /bin/entrypoint.sh
 
-RUN	yum install -y bzip2 wget git make gcc gcc-c++ \
-		       gmp-devel mpfr-devel \
-		       libmpc-devel; \
+RUN	yum install -y bzip2 wget git make gcc gcc-c++     \
+		       gmp-devel mpfr-devel openssl-devel  \
+		       freetype-devel fontconfig-devel     \
+		       libicu-devel sqlite-devel libpng-devel \
+	               libjpeg-devel libmpc-devel flex bison gperf ruby; \
 	sh /bin/build.sh
 
 EXPOSE 3000

@@ -4,6 +4,7 @@ ARCH=$(uname -m)
 SRC_DIR=$GF_PATHS_HOME
 
 GCC_SOURCE="http://mirrors-usa.go-parts.com/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+PHANTOMJS_SOURCE="https://github.com/ariya/phantomjs.git"
 
 GO_ARCH_AMD64="https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
 GO_ARCH_PPC64LE="https://dl.google.com/go/go${GO_VERSION}.linux-ppc64le.tar.gz"
@@ -35,6 +36,28 @@ run_wget()
 		*.bz2) tar xvjf $file ;;
 	esac
 
+}
+
+run_git()
+{
+    repo="$1"
+    opt="$2"
+
+    dir=${repo##*/}
+    dir=${dir%.git}
+
+    if [ -d $dir ]; then
+        cd $dir && git pull
+        if [ $? -ne 0 ]; then
+            print_error "git pull $dir" && exit 1
+        fi
+	cd ..
+    else
+        git clone $opt $repo
+        if [ $? -ne 0 ]; then
+            print_error "git clone $dir" && exit 1
+        fi
+    fi
 }
 
 install_gcc()
@@ -71,6 +94,15 @@ install_nodejs()
 	PATH=$(pwd)/$dir/bin:$PATH
 	PATH=$(npm bin):$PATH
 	rm -rf $file
+}
+
+install_phantomjs()
+{
+	# http://phantomjs.org/build.html
+	run_git $PHANTOMJS_SOURCE "--recurse-submodules -b $PHANTOMJS_VERSION"
+	cd $dir
+	python build.py
+	cd ..
 }
 
 remove_go()
@@ -154,6 +186,7 @@ fi
 install_gcc
 install_go
 install_nodejs
+install_phantomjs
 install_grafana
 
 remove_go
