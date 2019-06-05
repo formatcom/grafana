@@ -12,13 +12,14 @@ ENV PATH=/grafana/bin:$PATH \
     GF_PATHS_PLUGINS="/grafana/plugins" \
     GF_PATHS_PROVISIONING="/grafana/provisioning"
 
+ARG GCC_VERSION=9.1.0
 ARG GO_VERSION=1.12.5
-ARG NODEJS_VERSION=9.11.2
+ARG NODEJS_VERSION=10.16.0
 
 ADD build.sh /bin/build.sh
 ADD entrypoint.sh /bin/entrypoint.sh
 
-RUN	yum install -y bzip2 gcc gcc-c++ wget git make; \
+RUN	yum install -y bzip2 wget git make; \
 	sh /bin/build.sh
 
 EXPOSE 3000

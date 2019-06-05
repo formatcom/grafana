@@ -3,6 +3,8 @@
 ARCH=$(uname -m)
 SRC_DIR=$GF_PATHS_HOME
 
+GCC_SOURCE="http://mirrors-usa.go-parts.com/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+
 GO_ARCH_AMD64="https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
 GO_ARCH_PPC64LE="https://dl.google.com/go/go${GO_VERSION}.linux-ppc64le.tar.gz"
 
@@ -35,6 +37,14 @@ run_wget()
 
 }
 
+install_gcc()
+{
+	run_wget $GCC_SOURCE
+	cd $dir
+	./configure --enable-languages=c,c++ --disable-multilib
+	make -j$(nproc)
+	make install
+}
 
 install_go()
 {
@@ -73,11 +83,26 @@ install_grafana()
 
 	cd $GOPATH/src/github.com/grafana/grafana
 	go run build.go setup
+	if [ $? -ne 0 ]; then
+	    print_error "grafana build setup" && exit 1
+	fi
 	go run build.go build
+	if [ $? -ne 0 ]; then
+	    print_error "grafana build build" && exit 1
+	fi
 
 	npm install -g yarn
+	if [ $? -ne 0 ]; then
+	    print_error "grafana npm install yarn" && exit 1
+	fi
 	yarn install --pure-lockfile
+	if [ $? -ne 0 ]; then
+	    print_error "grafana yarn install" && exit 1
+	fi
 	yarn run build
+	if [ $? -ne 0 ]; then
+	    print_error "grafana yarn build" && exit 1
+	fi
 
 	export PATH=$(pwd)/bin:$PATH
 
@@ -114,6 +139,7 @@ else
 	print_error "ARCH NO SUPPORT" && exit 1
 fi
 
+install_gcc
 install_go
 install_nodejs
 install_grafana
