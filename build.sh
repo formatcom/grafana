@@ -40,10 +40,21 @@ run_wget()
 install_gcc()
 {
 	run_wget $GCC_SOURCE
+	rm -rf $file
 	cd $dir
 	./configure --enable-languages=c,c++ --disable-multilib
+	if [ $? -ne 0 ]; then
+	    print_error "gcc configure error" && exit 1
+	fi
 	make -j$(nproc)
+	if [ $? -ne 0 ]; then
+	    print_error "gcc make error" && exit 1
+	fi
 	make install
+	if [ $? -ne 0 ]; then
+	    print_error "gcc make install error" && exit 1
+	fi
+	cd ..
 }
 
 install_go()
