@@ -13,7 +13,7 @@ ENV PATH=/grafana/bin:$PATH \
     GF_PATHS_PROVISIONING="/grafana/provisioning"
 
 ARG GO_VERSION=1.12.5
-ARG NODEJS_VERSION=10.16.0
+ARG NODEJS_VERSION=9.11.2
 
 ADD build.sh /bin/build.sh
 ADD entrypoint.sh /bin/entrypoint.sh

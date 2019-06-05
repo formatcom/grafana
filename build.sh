@@ -6,8 +6,8 @@ SRC_DIR=$GF_PATHS_HOME
 GO_ARCH_AMD64="https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz"
 GO_ARCH_PPC64LE="https://dl.google.com/go/go${GO_VERSION}.linux-ppc64le.tar.gz"
 
-NODEJS_ARCH_AMD64="https://nodejs.org/dist/v10.16.0/node-v${NODEJS_VERSION}-linux-x64.tar.xz"
-NODEJS_ARCH_PPC64LE="https://nodejs.org/dist/v10.16.0/node-v${NODEJS_VERSION}-linux-ppc64le.tar.xz"
+NODEJS_ARCH_AMD64="https://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x64.tar.xz"
+NODEJS_ARCH_PPC64LE="https://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-ppc64le.tar.xz"
 
 print_error()
 {
