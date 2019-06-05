@@ -44,17 +44,21 @@ install_gcc()
 	cd $dir
 	./configure --enable-languages=c,c++ --disable-multilib
 	if [ $? -ne 0 ]; then
-	    print_error "gcc configure error" && exit 1
+	    print_error "gcc configure" && exit 1
 	fi
 	make -j$(nproc)
 	if [ $? -ne 0 ]; then
-	    print_error "gcc make error" && exit 1
+	    print_error "gcc make" && exit 1
 	fi
 	make install
 	if [ $? -ne 0 ]; then
-	    print_error "gcc make install error" && exit 1
+	    print_error "gcc make install" && exit 1
 	fi
 	cd ..
+	rm -rf $dir
+
+	PATH=/usr/local/bin:$PATH
+	LD_LIBRARY_PATH=/usr/local/lib64:$LD_LIBRARY_PATH
 }
 
 install_go()

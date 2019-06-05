@@ -19,7 +19,9 @@ ARG NODEJS_VERSION=10.16.0
 ADD build.sh /bin/build.sh
 ADD entrypoint.sh /bin/entrypoint.sh
 
-RUN	yum install -y bzip2 wget git make; \
+RUN	yum install -y bzip2 wget git make gcc gcc-c++ \
+		       gmp-devel mpfr-devel \
+		       libmpc-devel; \
 	sh /bin/build.sh
 
 EXPOSE 3000
