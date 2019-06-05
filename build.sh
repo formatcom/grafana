@@ -102,6 +102,10 @@ install_phantomjs()
 	run_git $PHANTOMJS_SOURCE "--recurse-submodules -b $PHANTOMJS_VERSION"
 	cd $dir
 	python build.py
+	if [ $? -ne 0 ]; then
+	    print_error "phantomjs build" && exit 1
+	fi
+	ln -s $(pwd)/bin/phantomjs /bin/phantomjs
 	cd ..
 }
 
